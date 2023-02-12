@@ -1,4 +1,6 @@
 BINARY_NAME=iRobo
+TAG = $(shell git describe --abbrev=0 --tags)
+NEXT_TAG = v$(shell echo $(TAG) | awk -F. '{$$NF+=1; OFS="."; print $$0}')
 
 all: build
 
@@ -8,10 +10,9 @@ build:
 	GOOS=windows GOARCH=amd64 go build -o $(BINARY_NAME)_windows_amd64.exe
 
 release:
-	$(eval TAG=$(shell git describe --tags --exact-match 2>/dev/null || echo "v0.0.0"))
-	@echo "Tagging release as $(TAG)"
-	git tag $(TAG)
-	git push origin $(TAG)
+	@echo "Tagging release as $(NEXT_TAG)"
+	git tag $(NEXT_TAG)
+	git push origin $(NEXT_TAG)
 
 clean:
 	rm $(BINARY_NAME)_*
