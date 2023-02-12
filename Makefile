@@ -1,5 +1,5 @@
 BINARY_NAME=iRobo
-TAG = v1.0.0
+TAG ?= v1.0.0
 
 all: build
 
