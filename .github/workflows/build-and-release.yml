@@ -22,14 +22,6 @@ jobs:
       with:
         go-version: 1.18
 
-    - name: Generate version number
-      uses: remorses/bump-version@v8
-      with:
-        version_file: ./VERSION
-        type: patch
-      env:
-        GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
-
     - name: Run make
       run: make build
 
@@ -55,10 +47,9 @@ jobs:
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
-        NEW_TAG: ${{ steps.version.outputs.new_version }}
       with:
-        tag_name: $(NEW_TAG)
-        release_name: Release $(NEW_TAG)
+        tag_name: $(cat VERSION)
+        release_name: Release $(cat VERSION)
         draft: false
         prerelease: false
         artifacts: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
