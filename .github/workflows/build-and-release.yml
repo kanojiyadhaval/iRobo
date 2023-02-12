@@ -8,7 +8,7 @@ on:
 env:
   GOOS: linux
   GOARCH: amd64
-  NEW_TAG: ${{ steps.version.outputs.new_version }}
+  NEW_TAG: "${{ steps.version.outputs.new_version }}"
 
 jobs:
   build:
