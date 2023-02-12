@@ -24,10 +24,10 @@ jobs:
 
     - name: Generate version number
       id: version
-      uses: thiagoaraujodev/action-version-bump@v1.1.0
+      uses: actions/version-bump@v2
       with:
-        version_file: version.txt
-        type: patch
+        bump-type: patch
+        version-file: version.txt
 
     - name: Run make
       run: make build
