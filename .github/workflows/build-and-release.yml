@@ -30,8 +30,8 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: binary-${{ env.GOOS }}-${{ env.GOARCH }}
-        path: binary-${{ env.GOOS }}-${{ env.GOARCH }}
+        name: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
+        path: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
 
   release:
     runs-on: ubuntu-latest
