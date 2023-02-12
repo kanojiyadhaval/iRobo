@@ -8,7 +8,6 @@ on:
 env:
   GOOS: linux
   GOARCH: amd64
-  NEW_TAG: "${{ steps.version.outputs.new_version }}"
 
 jobs:
   build:
@@ -55,9 +54,10 @@ jobs:
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
+        NEW_TAG: ${{ steps.version.outputs.new_version }}
       with:
-        tag_name: ${{ env.NEW_TAG }}
-        release_name: Release ${{ env.NEW_TAG }}
+        tag_name: $(NEW_TAG)
+        release_name: Release $(NEW_TAG)
         draft: false
         prerelease: false
         artifacts: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
