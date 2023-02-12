@@ -4,10 +4,10 @@ on:
   push:
     branches:
       - main
-
 env:
   GOOS: linux
   GOARCH: amd64
+  NEW_TAG: v1.0.0
 
 jobs:
   build:
@@ -38,6 +38,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Create Git Tag
+      uses: actions/create-git-tag@v2
+      with:
+        tag_name: $(NEW_TAG)
+        ref: refs/heads/main
+
     - name: Download Artifact
       uses: actions/download-artifact@v2
       with:
@@ -48,8 +54,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
       with:
-        tag_name: $(cat VERSION)
-        release_name: Release $(cat VERSION)
+        tag_name: $(NEW_TAG)
+        release_name: Release $(NEW_TAG)
         draft: false
         prerelease: false
         artifacts: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
