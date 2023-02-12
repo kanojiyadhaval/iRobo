@@ -10,6 +10,7 @@ on:
 env:
   GOOS: linux
   GOARCH: amd64
+  TAG: ${{ github.ref }}
 
 jobs:
   build:
