@@ -23,10 +23,9 @@ jobs:
         go-version: 1.18
 
     - name: Generate version number
-      id: version
       uses: remorses/bump-version@v8
       with:
-        version_file: version.txt
+        version_file: ./VERSION
         type: patch
 
     - name: Run make
