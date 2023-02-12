@@ -44,4 +44,15 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v2
       with:
-        name: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
+        name: $(BINARY_NAME)_${{ env.GOOS }}_${{ env.GOARCH }}
+
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
+      with:
+        tag_name: $(TAG)
+        release_name: Release $(TAG)
+        draft: false
+        prerelease: false
+        artifacts: $(BINARY_NAME)_${{ env.GOOS }}_${{ env.GOARCH }}
