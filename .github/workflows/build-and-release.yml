@@ -24,10 +24,10 @@ jobs:
 
     - name: Generate version number
       id: version
-      uses: actions/version-bump@v2
+      uses: remorses/bump-version@v8
       with:
-        bump-type: patch
-        version-file: version.txt
+        version_file: version.txt
+        type: patch
 
     - name: Run make
       run: make build
