@@ -1,0 +1,57 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main
+  release:
+    types: [created]
+
+env:
+  GOOS: linux
+  GOARCH: amd64
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: latest
+
+    - name: Run make
+      run: make build
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: binary-${{ env.GOOS }}-${{ env.GOARCH }}
+        path: binary-${{ env.GOOS }}-${{ env.GOARCH }}
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Download Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: binary-${{ env.GOOS }}-${{ env.GOARCH }}
+
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ env.TAG }}
+        release_name: Release v${{ env.TAG }}
+        draft: false
+        prerelease: false
+        artifacts: binary-${{ env.GOOS }}-${{ env.GOARCH }}
