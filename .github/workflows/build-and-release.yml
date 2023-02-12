@@ -2,16 +2,12 @@ name: Build and Release
 
 on:
   push:
-    tags:
-      - "v*"
-  release:
-    types: [created]
-    refs:
-      - refs/tags/$(TAG)
+    branches:
+      - main
 env:
   GOOS: linux
   GOARCH: amd64
-  TAG: ${{ github.ref }}
+  NEW_TAG: v${{ steps.version.outputs.new_version }}
 
 jobs:
   build:
@@ -42,6 +38,21 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Generate Semantic Version
+      id: version
+      uses: actions/create-semantic-release-version@v2
+      with:
+        base_ref: main
+        major_bump_on_break: true
+        minor_bump_on_feature: true
+        patch_bump_on_fix: true
+
+    - name: Create Git Tag
+      uses: actions/create-git-tag@v2
+      with:
+        tag_name: $(NEW_TAG)
+        ref: refs/heads/main
+
     - name: Download Artifact
       uses: actions/download-artifact@v2
       with:
@@ -52,8 +63,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
       with:
-        tag_name: $(TAG)
-        release_name: Release $(TAG)
+        tag_name: $(NEW_TAG)
+        release_name: Release $(NEW_TAG)
         draft: false
         prerelease: false
         artifacts: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
