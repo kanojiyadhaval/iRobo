@@ -45,14 +45,3 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
-
-    - name: Create Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
-      with:
-        tag_name: v${{ env.TAG }}
-        release_name: Release v${{ env.TAG }}
-        draft: false
-        prerelease: false
-        artifacts: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
