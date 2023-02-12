@@ -22,7 +22,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v2
       with:
-        go-version: latest
+        go-version: 1.18
 
     - name: Run make
       run: make build
@@ -48,7 +48,7 @@ jobs:
     - name: Create Release
       uses: actions/create-release@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
       with:
         tag_name: v${{ env.TAG }}
         release_name: Release v${{ env.TAG }}
