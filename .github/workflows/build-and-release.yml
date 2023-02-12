@@ -4,7 +4,10 @@ on:
   push:
     tags:
       - "v*"
-
+  release:
+    types: [created]
+    refs:
+      - refs/tags/$(TAG)
 env:
   GOOS: linux
   GOARCH: amd64
