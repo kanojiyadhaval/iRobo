@@ -49,7 +49,7 @@ jobs:
       with:
         repo_token: "${{ secrets.CI_TOKEN }}"
         automatic_release_tag: ${{ env.NEW_TAG }}
-        assets: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
+        assets: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}/irobo
         release_name: Release ${{ env.NEW_TAG }}
         draft: false
         prerelease: false
