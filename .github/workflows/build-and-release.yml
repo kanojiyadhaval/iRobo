@@ -45,6 +45,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: iRobo_*
+        path: iRobo_*
       
     - name: Use Automatic Releases
       uses: "marvinpinto/action-automatic-releases@latest"
