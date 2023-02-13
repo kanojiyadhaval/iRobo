@@ -40,7 +40,7 @@ jobs:
       uses: actions/checkout@v2.4.2
 
     - name: Use Automatic Releases
-      uses: marketplace/actions/automatic-releases@2.0.0
+      uses: "marvinpinto/action-automatic-releases@latest"
       with:
         tag_name: $(NEW_TAG)
         assets: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
