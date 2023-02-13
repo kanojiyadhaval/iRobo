@@ -43,8 +43,8 @@ jobs:
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.CI_TOKEN }}"
-        automatic_release_tag: $(NEW_TAG)
+        automatic_release_tag: ${{ env.NEW_TAG }}
         assets: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
-        release_name: Release $(NEW_TAG)
+        release_name: Release ${{ env.NEW_TAG }}
         draft: false
         prerelease: false
