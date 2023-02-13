@@ -44,16 +44,8 @@ jobs:
       with:
         name: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
         
-    - name: Print artifact directory path
-      run: ls && cd /home/runner/work/iRobo/iRobo && ls
-      
-    - name: Use Automatic Releases
-      uses: "marvinpinto/action-automatic-releases@latest"
+    - name: Set up Goreleaser
+      uses: goreleaser/goreleaser-action@v2
       with:
-        repo_token: "${{ secrets.CI_TOKEN }}"
-        automatic_release_tag: ${{ env.NEW_TAG }}
-        release_name: Release ${{ env.NEW_TAG }}
-        draft: false
-        prerelease: false
-        files: |
-          iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
+        goreleaser_token: "${{ env.GITHUB_TOKEN }}"
+        cmd: release --skip-publish
