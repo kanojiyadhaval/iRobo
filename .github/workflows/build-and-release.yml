@@ -45,7 +45,7 @@ jobs:
         name: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
         
     - name: Print artifact directory path
-      run: $(pwd)
+      run: ls /home/runner/work/iRobo/iRobo && cd /home/runner/work/iRobo/iRobo
       
     - name: Use Automatic Releases
       uses: "marvinpinto/action-automatic-releases@latest"
