@@ -15,7 +15,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v2.4.2
 
     - name: Set up Go
       uses: actions/setup-go@v2
@@ -36,13 +36,13 @@ jobs:
     needs: build
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v2.4.2
 
     - name: Create Git Tag
-      uses: actions/create-git-tag@v2
+      uses: actions/create-tag@v2
       with:
-        tag_name: $(NEW_TAG)
         ref: refs/heads/main
+        tag: $(NEW_TAG)
 
     - name: Download Artifact
       uses: actions/download-artifact@v2
