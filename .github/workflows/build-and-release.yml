@@ -25,7 +25,10 @@ jobs:
 
     - name: Run make
       run: make build
-
+    
+    - name: Print artifact directory path
+      run: ls
+    
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
@@ -43,11 +46,14 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
-        
-    - name: Set up Goreleaser
-      uses: goreleaser/goreleaser-action@v2
+      
+    - name: Use Automatic Releases
+      uses: "marvinpinto/action-automatic-releases@latest"
       with:
-        version: latest
-        args: release --clean
-        goreleaser_token: "${{ env.GITHUB_TOKEN }}"
-        cmd: release --skip-publish
+        repo_token: "${{ secrets.CI_TOKEN }}"
+        automatic_release_tag: ${{ env.NEW_TAG }}
+        release_name: Release ${{ env.NEW_TAG }}
+        draft: false
+        prerelease: false
+        files: |
+          iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
