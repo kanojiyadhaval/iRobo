@@ -42,7 +42,7 @@ jobs:
     - name: Use Automatic Releases
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
-        repo_token: "${{ GITHUB_TOKEN }}"
+        repo_token: "${{ secrets.CI_TOKEN }}"
         tag_name: $(NEW_TAG)
         assets: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
         release_name: Release $(NEW_TAG)
