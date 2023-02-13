@@ -52,7 +52,8 @@ jobs:
       with:
         repo_token: "${{ secrets.CI_TOKEN }}"
         automatic_release_tag: ${{ env.NEW_TAG }}
-        assets: /home/runner/work/iRobo/iRobo/iRobo_${{ env.GOOS }}_${{ env.GOARCH }}/irobo
         release_name: Release ${{ env.NEW_TAG }}
         draft: false
         prerelease: false
+        files: |
+          iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
