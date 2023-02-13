@@ -38,11 +38,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2.4.2
 
+    - uses: actions/create-tag@v2
     - name: Create Git Tag
-      uses: actions/create-tag@v2
-      with:
-        ref: refs/heads/main
-        tag: $(NEW_TAG)
+      run: |
+          git tag $(NEW_TAG)
+          git push origin $(NEW_TAG)
 
     - name: Download Artifact
       uses: actions/download-artifact@v2
