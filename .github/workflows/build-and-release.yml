@@ -44,6 +44,9 @@ jobs:
       with:
         name: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
         
+    - name: Print artifact directory path
+      run: echo "Artifact directory path: $(pwd)/iRobo_${{ env.GOOS }}_${{ env.GOARCH }}"
+      
     - name: Use Automatic Releases
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
