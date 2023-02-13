@@ -32,8 +32,8 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: my_artificate
-        path: iRobo_*
+        name: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
+        path: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
 
   release:
     runs-on: ubuntu-latest
@@ -45,7 +45,7 @@ jobs:
     - name: Download Artifact
       uses: actions/download-artifact@v2
       with:
-        name: iRobo_*
+        name: iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
       
     - name: Use Automatic Releases
       uses: "marvinpinto/action-automatic-releases@latest"
@@ -56,4 +56,4 @@ jobs:
         draft: false
         prerelease: false
         files: |
-          iRobo_*
+          iRobo_${{ env.GOOS }}_${{ env.GOARCH }}
