@@ -47,5 +47,7 @@ jobs:
     - name: Set up Goreleaser
       uses: goreleaser/goreleaser-action@v2
       with:
+        version: latest
+        args: release --clean
         goreleaser_token: "${{ env.GITHUB_TOKEN }}"
         cmd: release --skip-publish
