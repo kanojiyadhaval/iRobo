@@ -8,7 +8,10 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"time"
 
+	"github.com/briandowns/spinner"
+	"github.com/fatih/color"
 	"gopkg.in/yaml.v2"
 )
 
@@ -20,17 +23,20 @@ type Stages struct {
 }
 
 func runCommand(cmd string) error {
-	fmt.Println("Running command:", cmd)
+	fmt.Println(color.GreenString("Running command:"), cmd)
+	s := spinner.New(spinner.CharSets[9], 100*time.Millisecond)
+	s.Start()
 	out, err := exec.Command("sh", "-c", cmd).CombinedOutput()
+	s.Stop()
 	if err != nil {
-		fmt.Println(string(out))
+		fmt.Println(color.RedString(string(out)))
 		return fmt.Errorf("error running command: %w", err)
 	}
 	fmt.Println(string(out))
 	return nil
 }
 func runStage(stage string, commands []string) error {
-	fmt.Println("\nRunning stage:", stage)
+	fmt.Println(color.CyanString("\nRunning stage:"), stage)
 	for _, cmd := range commands {
 		if err := runCommand(cmd); err != nil {
 			return fmt.Errorf("error running stage %q: %w", stage, err)
@@ -60,29 +66,29 @@ func loadEnv(filename string) error {
 }
 func main() {
 	var stageFile, envFile, stageName string
-	flag.StringVar(&stageFile, "stages", "stages.yml", "Path to the stages file")
+	flag.StringVar(&stageFile, "tasks", "stages.yml", "Path to the stages file")
 	flag.StringVar(&envFile, "env", ".env", "Path to the environment file")
 	flag.StringVar(&stageName, "stage", "", "Name of the stage to run")
 	flag.Parse()
 
 	if err := loadEnv(envFile); err != nil {
-		fmt.Println("Error loading .env file:", err)
+		fmt.Println(color.RedString("Error loading .env file:"), err)
 		return
 	}
 	yamlFile, err := ioutil.ReadFile(stageFile)
 	if err != nil {
-		fmt.Println("Error loading stages.yml file:", err)
+		fmt.Println(color.RedString("Error loading stages.yml file:"), err)
 		return
 	}
 	var stages Stages
 	if err := yaml.Unmarshal(yamlFile, &stages); err != nil {
-		fmt.Println("Error parsing stages.yml file:", err)
+		fmt.Println(color.RedString("Error parsing stages.yml file:"), err)
 		return
 	}
 	if stageName != "" {
 		stage, ok := stages.Stages[stageName]
 		if !ok {
-			fmt.Println("Error: stage", stageName, "not found")
+			fmt.Println(color.RedString("Error: stage", stageName, "not found"))
 			return
 		}
 		if err := runStage(stageName, stage.Commands); err != nil {
